@@ -15,7 +15,7 @@ from random import randint
 
 # Se inicializa el promedio y la desviacion 
 mean = []
-
+dataTestingPrint = []
 std = []
 
 def scale_features(dataX,label,*arg):
@@ -44,7 +44,7 @@ def scale_features(dataX,label,*arg):
         return dataScaled
 
 
-def confusionMatrix(x_testing,y_testing,x_train,y_train,k):
+def confusionMatrix(x_testing,y_testing,x_train,y_train,k,testX):
     """
     Calcular la matriz de confusion asi como sus metricas de rendimiento
 
@@ -63,9 +63,24 @@ def confusionMatrix(x_testing,y_testing,x_train,y_train,k):
     # exit(1)
 
     #Se recorren los resultados predecidos y los resultados correctos
+    print("{:12s}".format("Pregnancies"),"{:12s}".format("Glucose"),"{:16s}".format("BloodPressure")
+        ,"{:16s}".format("Skin Thickness"),"{:10s}".format("Insulin"),"{:8s}".format("BMI")
+        ,"{:18s}".format("Diabetes.Ped.Fun."),"{:5s}".format("Age"),"{:14s}".format("Pb. Diabetes")
+        ,"{:14s}".format("Pb. NO Diabetes"))
+    n = 0
     for x,y in zip(x_testing,y_testing):
         #Se compara para saber si son TP, TN, FN, FP
-        prediccion = getPredictValue(x,x_train,y_train,k)
+        prediccion, diabetesY, diabetesN = getPredictValue(x,x_train,y_train,k)
+        # print(testX[n][0],"\t",testX[n][1],testX[n][2],
+        #     testX[n][3],testX[n][4],testX[n][5],testX[n][6
+        #     ],testX[n][7],round(diabetesY,2),round(diabetesN,2))
+        print("{:12s}".format(str(round(testX[n][0],3))),"{:12s}".format(str(round(testX[n][1],3))),
+            "{:16s}".format(str(round(testX[n][2],3))),"{:16s}".format(str(round(testX[n][3],3))),
+            "{:10s}".format(str(round(testX[n][4],3))),"{:8s}".format(str(round(testX[n][5],3))),
+            "{:18s}".format(str(round(testX[n][6],3))),"{:5s}".format(str(round(testX[n][7],3))),
+            "{:>10s}".format(str(round(diabetesY,2))),"{:>10s}".format(str(round(diabetesN,2))))
+        n += 1
+        # exit(1)
         # print(prediccion,y)
         if (prediccion == 1 and y == 1):
             tp += 1
@@ -170,13 +185,17 @@ def load_data(path_and_filename):
     #Se escalan los datos de prueba
     dataXscaledTesting=[]
 
+    testX = testingDataX
+    # print(testingDataX[0])
+    # exit(1)
+
     for featureX,meanX,stdX in zip (testingDataX.T,mean,std):
         dataScaled= scale_features(featureX,"testing",meanX,stdX)
         dataXscaledTesting.append(dataScaled)
 
     dataXscaledTesting = np.array(dataXscaledTesting).T
 
-    return dataXscaled, dataY, dataXscaledTesting, testingDataY
+    return dataXscaled, dataY, dataXscaledTesting, testingDataY, testX
 
 def getPredictValue(x0,x_train,y_train,k):
 
@@ -194,25 +213,9 @@ def getPredictValue(x0,x_train,y_train,k):
             unos +=1
 
     if ceros > unos :
-        return 0
+        return 0, ceros/k, unos/k
     else:
-        return 1
+        return 1, ceros/k, unos/k
 
 def distanciaEucladiana(x_train,x0):
     return (np.sqrt(np.sum(np.subtract(x_train,x0)**2)))
-
-def show_w(w):
-    """
-    Desplegar los valores optimos de la w
-
-    INPUTS
-    :parametro 1: matriz con los valores optimos de la w
-
-    OUTPUTS
-
-    """
-    print("-"*28)
-    print("W parameter")
-    print("-"*28)
-    for x in range(len(w)):
-        print("w",x,":",float(w[x]))

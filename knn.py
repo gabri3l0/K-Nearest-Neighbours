@@ -28,13 +28,13 @@ def main():
 	import utilityfunctions as uf
 
 	# Metodo para obtener el x,y de entrenamiento, promedio, desviacion estandar, y caracteristicas
-	x_train, y_train, x_testing, y_testing = uf.load_data('diabetes.csv')
+	x_train, y_train, x_testing, y_testing, testX = uf.load_data('diabetes.csv')
 
 	# print(x_train)
 	# print(x_testing[0])
-	k = 20
+	k = 3
 	# prediccion = uf.getPredictValue(x_testing[0],x_train,y_train,k)
 
-	uf.confusionMatrix(x_testing,y_testing,x_train,y_train,k)
+	uf.confusionMatrix(x_testing,y_testing,x_train,y_train,k,testX)
 
 main()
