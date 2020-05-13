@@ -1,5 +1,5 @@
 """ utilityfunctions.py
-    Archivo que contiene los metodos para logistic-classification.py
+    Archivo que contiene los metodos para knn.py
 
     Author: Gabriel Aldahir Lopez Soto
     Email: gabriel.lopez@gmail.com
