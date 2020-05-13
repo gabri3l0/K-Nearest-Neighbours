@@ -32,22 +32,9 @@ def main():
 
 	# print(x_train)
 	# print(x_testing[0])
-	k = 3
-	distance = uf.getDistance(x_testing[0],x_train,k)
-	# print(len(distance))
-	print(distance)
-	exit(1)
+	k = 20
+	# prediccion = uf.getPredictValue(x_testing[0],x_train,y_train,k)
 
-	# Metodo para imprimir las w optimas
-	uf.show_w(w)
-
-	# Metodo para obtener las clases pedecidas
-	predicted_class = uf.predict_log(x_testing,w)
-
-	# Transponer los resultados para compararlos
-	predicted_class = predicted_class.T
-
-	# Metodo obtener la matriz de confusion y sus metricas de rendimiento
-	uf.confusionMatrix(predicted_class,y_testing)
+	uf.confusionMatrix(x_testing,y_testing,x_train,y_train,k)
 
 main()

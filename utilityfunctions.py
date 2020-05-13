@@ -44,7 +44,7 @@ def scale_features(dataX,label,*arg):
         return dataScaled
 
 
-def confusionMatrix(predicted_class,y_testing):
+def confusionMatrix(x_testing,y_testing,x_train,y_train,k):
     """
     Calcular la matriz de confusion asi como sus metricas de rendimiento
 
@@ -59,17 +59,23 @@ def confusionMatrix(predicted_class,y_testing):
     #Declaracion de variables de matriz de confusion y metricas
     tp = tn = fn = fp = accuracy = precision = recall = specifity = f1 = 0
 
+    # print(y_testing)
+    # exit(1)
+
     #Se recorren los resultados predecidos y los resultados correctos
-    for x,y in zip(predicted_class,y_testing):
+    for x,y in zip(x_testing,y_testing):
         #Se compara para saber si son TP, TN, FN, FP
-        if (x > 0 and y == 1):
+        prediccion = getPredictValue(x,x_train,y_train,k)
+        # print(prediccion,y)
+        if (prediccion == 1 and y == 1):
             tp += 1
-        if (x < 0 and y == 0):
+        if (prediccion == 0 and y == 0):
             tn += 1
-        if (x < 0 and y == 1):
-            fn += 1
-        if (x > 0 and y == 0):
+        if (prediccion == 0 and y == 1):
+            fn += 1 
+        if (prediccion == 1 and y == 0):
             fp += 1
+
 
     #Se calculan la metricas dependiendo de los resultados de la matriz de confusion
     accuracy = (tp + tn)/(tp + tn + fp + fn)
@@ -170,15 +176,11 @@ def load_data(path_and_filename):
 
     dataXscaledTesting = np.array(dataXscaledTesting).T
 
-    # print(dataXscaledTesting[0])
-    # print('----')
-    # # print(dataY)
-    # exit(0)
-
-
     return dataXscaled, dataY, dataXscaledTesting, testingDataY
 
-def getDistance(x0,x_train,k):
+def getPredictValue(x0,x_train,y_train,k):
+
+    ceros = unos = 0
     distancia = {}
     for x in range(len(x_train)):
         distancia[x] = distanciaEucladiana(x_train[x],x0)
@@ -186,10 +188,15 @@ def getDistance(x0,x_train,k):
 
     for x in range(k):
         data = distancia[x][0]
-        
+        if(y_train[data]==0):
+            ceros +=1
+        else:
+            unos +=1
 
-    exit(1)
-    return distancia
+    if ceros > unos :
+        return 0
+    else:
+        return 1
 
 def distanciaEucladiana(x_train,x0):
     return (np.sqrt(np.sum(np.subtract(x_train,x0)**2)))
