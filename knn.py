@@ -30,7 +30,7 @@ def main():
 	x_train, y_train, x_testing, y_testing, testX = uf.load_data('diabetes.csv')
 
 	# Numero de la k
-	k = 10
+	k = 20
 
 	# Metodo para obtener la matriz de confusion
 	uf.confusionMatrix(x_testing,y_testing,x_train,y_train,k,testX)

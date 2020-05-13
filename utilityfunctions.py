@@ -141,7 +141,7 @@ def getPredictValue(x0,x_train,y_train,k):
 
     # Ciclo para obtener la distancia euclidiana de cada dato
     for x in range(len(x_train)):
-        distancia[x] = distanciaEucladiana(x_train[x],x0)
+        distancia[x] = distanciaEuclidiana(x_train[x],x0)
 
     # Se ordenan los resultados
     distancia = sorted(distancia.items(), key=lambda x: x[1])
@@ -165,7 +165,7 @@ def getPredictValue(x0,x_train,y_train,k):
     else:
         return 1, ceros/k, unos/k
 
-def distanciaEucladiana(x_train,x0):
+def distanciaEuclidiana(x_train,x0):
     """
     Calcular la distancia Eucladiana
 
@@ -238,6 +238,8 @@ def confusionMatrix(x_testing,y_testing,x_train,y_train,k,testX):
     specifity = (tn/(tn + fp))
     f1 = (2.0 * ((precision * recall)/(precision + recall)))
 
+    print("-"*28)
+    print("K ",k)
     print("-"*28)
     print("Confusion Matrix")
     print("-"*28)
