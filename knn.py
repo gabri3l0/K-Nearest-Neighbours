@@ -1,11 +1,11 @@
 #!/usr/bin/python3.7
-""" multivariate-linear-regression.py
-    Algoritmo que implementa clasificacion logistica
+""" knn.py
+    Algoritmo que implementa los vecinos k mas cercanos
 
     Author: Gabriel Aldahir Lopez Soto
     Email: gabriel.lopez@gmail.com
     Institution: Universidad de Monterrey
-    First created: Sat 18 April, 2020
+    First created: Wed 13 May, 2020
 """
 
 def main():
@@ -13,8 +13,7 @@ def main():
 	Aqui se manda llamar el archivo para leer los datos del CSV, asi mismo
 	se obtienen las x, y de entrenamiento, el promedio de las x aplicando 
 	escalamiento de caracteristicas y la desviacion estandar para despues
-	obtener los parametros w y con base eso usar los datos de prueba y
-	predecir las y o el costo de la ultima milla
+	obtener la matriz de confusion para poder predecir
 
 	Datos de entrada:
 	Nada
@@ -27,14 +26,13 @@ def main():
 	
 	import utilityfunctions as uf
 
-	# Metodo para obtener el x,y de entrenamiento, promedio, desviacion estandar, y caracteristicas
+	# Metodo para obtener el x,y de entrenamiento, x, y de pruebas, copia de X
 	x_train, y_train, x_testing, y_testing, testX = uf.load_data('diabetes.csv')
 
-	# print(x_train)
-	# print(x_testing[0])
-	k = 3
-	# prediccion = uf.getPredictValue(x_testing[0],x_train,y_train,k)
+	# Numero de la k
+	k = 10
 
+	# Metodo para obtener la matriz de confusion
 	uf.confusionMatrix(x_testing,y_testing,x_train,y_train,k,testX)
 
 main()
