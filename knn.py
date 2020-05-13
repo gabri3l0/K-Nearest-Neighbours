@@ -28,17 +28,15 @@ def main():
 	import utilityfunctions as uf
 
 	# Metodo para obtener el x,y de entrenamiento, promedio, desviacion estandar, y caracteristicas
-	x_train, y_train, x_testing, y_testing, features = uf.load_data('diabetes.csv')
+	x_train, y_train, x_testing, y_testing = uf.load_data('diabetes.csv')
 
-	# Se inicializa los hiperparametros
-	learning_rate = 0.0005
-	stopping_criteria = 0.01
-
-	# Inicializa w
-	w = (np.array([[0.0]*(features)]).T)
-
-	# Metodo para obtener el gradiente descendiente
-	w = uf.gradient_descent(x_train, y_train, w, stopping_criteria, learning_rate)
+	# print(x_train)
+	# print(x_testing[0])
+	k = 3
+	distance = uf.getDistance(x_testing[0],x_train,k)
+	# print(len(distance))
+	print(distance)
+	exit(1)
 
 	# Metodo para imprimir las w optimas
 	uf.show_w(w)
